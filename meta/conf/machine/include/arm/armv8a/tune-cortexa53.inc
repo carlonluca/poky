@@ -1,17 +1,42 @@
-DEFAULTTUNE ?= "cortexa53"
-
-TUNEVALID[cortexa53] = "Enable Cortex-A53 specific processor optimizations"
-TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa53', ' -mcpu=cortex-a53', '', d)}"
+DEFAULTTUNE ?= "cortexa53-32"
 
 require conf/machine/include/arm/arch-armv8a.inc
 
-# Little Endian base configs
-AVAILTUNES += "cortexa53 cortexa53-crypto"
-ARMPKGARCH:tune-cortexa53             = "cortexa53"
-ARMPKGARCH:tune-cortexa53-crypto      = "cortexa53-crypto"
-TUNE_FEATURES:tune-cortexa53          = "${TUNE_FEATURES:tune-armv8a-crc} cortexa53"
-TUNE_FEATURES:tune-cortexa53-crypto   = "${TUNE_FEATURES:tune-cortexa53} crypto"
-PACKAGE_EXTRA_ARCHS:tune-cortexa53             = "${PACKAGE_EXTRA_ARCHS:tune-armv8a-crc} cortexa53"
-PACKAGE_EXTRA_ARCHS:tune-cortexa53-crypto      = "${PACKAGE_EXTRA_ARCHS:tune-armv8a-crc-crypto} cortexa53 cortexa53-crypto"
-BASE_LIB:tune-cortexa53               = "lib64"
-BASE_LIB:tune-cortexa53-crypto        = "lib64"
+TUNEVALID[cortexa53] = "Enable Cortex-A53 specific processor optimizations"
+TUNE_CCARGS .= "${@bb.utils.contains('TUNE_FEATURES', 'cortexa53', ' -mcpu=cortex-a53 ', '',d)}"
+
+# Extra tune selections
+AVAILTUNES += "cortexa53-32"
+ARMPKGARCH:tune-cortexa53-32 ?= "cortexa53"
+TUNE_FEATURES:tune-cortexa53-32 = "${TUNE_FEATURES_tune-armv8-neon-crc} cortexa53"
+BASE_LIB:tune-cortexa53-32 = "lib"
+TUNE_PKGARCH:tune-cortexa53-32 = "cortexa53-32"
+PACKAGE_EXTRA_ARCHS:tune-cortexa53-32 = "${PACKAGE_EXTRA_ARCHS:tune-armv8-neon-crc} cortexa53-32 cortexa53-neon-fp-armv8"
+
+AVAILTUNES += "cortexa53crypto-32"
+ARMPKGARCH:tune-cortexa53crypto-32 ?= "cortexa53"
+TUNE_FEATURES:tune-cortexa53crypto-32 = "${TUNE_FEATURES:tune-armv8-neon-crypto-crc} cortexa53"
+BASE_LIB:tune-cortexa53crypto-32 = "lib"
+TUNE_PKGARCH:tune-cortexa53crypto-32 = "cortexa53crypto-32"
+PACKAGE_EXTRA_ARCHS:tune-cortexa53crypto-32 = "${PACKAGE_EXTRA_ARCHS:tune-armv8-neon-crypto-crc} cortexa53-32 cortexa53-crypto-neon-fp-armv8"
+
+AVAILTUNES += "cortexa53hf-32"
+ARMPKGARCH:tune-cortexa53hf-32 ?= "cortexa53"
+TUNE_FEATURES:tune-cortexa53hf-32 = "${TUNE_FEATURES:tune-armv8hf-neon-crc} cortexa53"
+BASE_LIB:tune-cortexa53hf-32 = "lib"
+TUNE_PKGARCH:tune-cortexa53hf-32 = "cortexa53hf-32"
+PACKAGE_EXTRA_ARCHS:tune-cortexa53hf-32 = "${PACKAGE_EXTRA_ARCHS:tune-armv8hf-neon-crc} cortexa53hf-32 cortexa53hf-neon-fp-armv8"
+
+AVAILTUNES += "cortexa53hfcrypto-32"
+ARMPKGARCH:tune-cortexa53hfcrypto-32 ?= "cortexa53"
+TUNE_FEATURES:tune-cortexa53hfcrypto-32 = "${TUNE_FEATURES:tune-armv8hf-neon-crypto-crc} cortexa53"
+BASE_LIB:tune-cortexa53hfcrypto-32 = "lib"
+TUNE_PKGARCH:tune-cortexa53hfcrypto-32 = "cortexa53hfcrypto-32"
+PACKAGE_EXTRA_ARCHS:tune-cortexa53hfcrypto-32 = "${PACKAGE_EXTRA_ARCHS:tune-armv8hf-neon-crypto-crc} cortexa53hf-32 cortexa53hf-crypto-neon-fp-armv8"
+
+AVAILTUNES += "cortexa53-64"
+ARMPKGARCH:tune-cortexa53-64 ?= "cortexa53"
+TUNE_FEATURES:tune-cortexa53-64 = "${TUNE_FEATURES_tune-aarch64} cortexa53"
+BASE_LIB:tune-cortexa53-64 = "lib64"
+TUNE_PKGARCH:tune-cortexa53-64 = "cortexa53-64"
+PACKAGE_EXTRA_ARCHS:tune-cortexa53-64 = "${PACKAGE_EXTRA_ARCHS:tune-aarch64} cortexa53-64"
