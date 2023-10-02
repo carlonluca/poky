@@ -4,8 +4,8 @@ TUNEVALID[armv8] = "Enable instructions for ARMv8"
 TUNECONFLICTS[armv8] = "armv4 armv5 armv6 armv7 armv7a armv7ve"
 
 TUNE_CCARGS .= \
-"${@' -march=armv8-a+crc' if bb.utils.contains('TUNE_FEATURES', [ 'armv8', 'cryptov8', 'crcv8' ], True, False, d) else\
-' -march=armv8-a+crypto' if bb.utils.contains('TUNE_FEATURES', [ 'armv8', 'cryptov8' ], True, False, d) else\
+"${@' -march=armv8-a+crypto' if bb.utils.contains('TUNE_FEATURES', [ 'armv8', 'cryptov8', 'crcv8' ], True, False, d) else\
+' -march=armv8-a+crypto+simd' if bb.utils.contains('TUNE_FEATURES', [ 'armv8', 'cryptov8' ], True, False, d) else\
 ' -march=armv8-a+crc' if bb.utils.contains('TUNE_FEATURES', [ 'armv8', 'crcv8' ], True, False, d) else \
 bb.utils.contains('TUNE_FEATURES', 'armv8', ' -march=armv8-a', '', d)}"
 

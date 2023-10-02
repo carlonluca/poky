@@ -126,6 +126,14 @@ TARGET_C_INT_WIDTH[arm] = "32"
 MAX_ATOMIC_WIDTH[arm] = "64"
 FEATURES[arm] = "+v6,+vfp2"
 
+## armv8-unknown-linux-gnueabihf
+DATA_LAYOUT[armv8-eabi] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
+TARGET_ENDIAN[armv8-eabi] = "little"
+TARGET_POINTER_WIDTH[armv8-eabi] = "32"
+TARGET_C_INT_WIDTH[armv8-eabi] = "32"
+MAX_ATOMIC_WIDTH[armv8-eabi] = "64"
+FEATURES[armv8-eabi] = "+vfp4"
+
 ## armv7-unknown-linux-gnueabihf
 DATA_LAYOUT[armv7-eabi] = "e-m:e-p:32:32-i64:64-v128:64:128-a:0:32-n32-S64"
 TARGET_ENDIAN[armv7-eabi] = "little"
@@ -241,6 +249,7 @@ def prefix_for(d, thing):
 # Convert a normal arch (HOST_ARCH, TARGET_ARCH, BUILD_ARCH, etc) to something
 # rust's internals won't choke on.
 def arch_to_rust_target_arch(arch):
+    print("lcarlon arch:", arch)
     if arch == "i586" or arch == "i686":
         return "x86"
     elif arch == "mipsel":
@@ -308,6 +317,7 @@ def rust_gen_target(d, thing, wd, features, cpu, arch, abi=""):
     features = features.strip()
 
     # build tspec
+    print("lcarlon:", arch_abi, abi, cpu, features)
     tspec = {}
     tspec['llvm-target'] = d.getVar('RUST_TARGET_SYS', arch_abi)
     tspec['data-layout'] = d.getVarFlag('DATA_LAYOUT', arch_abi)
